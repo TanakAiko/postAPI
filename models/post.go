@@ -2,19 +2,26 @@ package models
 
 import (
 	"database/sql"
+	"encoding/json"
 	"log"
 	"os"
 	"time"
 )
 
 type Post struct {
-	Id       int
-	UserId   int    `json:"userID"`
-	Content  string `json:"content"`
-	CreateAt time.Time
+	Id        int
+	UserId    int      `json:"userID"`
+	Categorie []string `json:"categorie"`
+	Content   string   `json:"content"`
+	CreateAt  time.Time
 }
 
 func (post *Post) CreatePost(db *sql.DB) error {
+	categorieJSON, err := json.Marshal(post.Categorie)
+	if err != nil {
+		return err
+	}
+
 	tx, err := db.Begin()
 	if err != nil {
 		log.Println(err)
@@ -37,6 +44,7 @@ func (post *Post) CreatePost(db *sql.DB) error {
 
 	_, err = stmt.Exec(
 		post.UserId,
+		string(categorieJSON),
 		post.Content,
 		time.Now().Format(time.RFC3339),
 	)
@@ -54,10 +62,16 @@ func (post *Post) CreatePost(db *sql.DB) error {
 }
 
 func (post *Post) GetOnePost(db *sql.DB) error {
-	err := db.QueryRow("SELECT userId, content, createdAt FROM posts WHERE id = ?", post.Id).Scan(
+	var categorieJSON string
+	err := db.QueryRow("SELECT userId, categorie, content, createdAt FROM posts WHERE id = ?", post.Id).Scan(
 		&post.UserId,
+		&categorieJSON,
 		&post.Content,
 		&post.CreateAt,
 	)
+	if err != nil {
+		return err
+	}
+	err = json.Unmarshal([]byte(categorieJSON), &post.Categorie)
 	return err
 }

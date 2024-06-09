@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"database/sql"
+	"encoding/json"
 	"net/http"
 	"post/internals/tools"
 	md "post/models"
@@ -16,7 +17,7 @@ func getOnePost(w http.ResponseWriter, post md.Post, db *sql.DB) {
 }
 
 func getAllPost(w http.ResponseWriter, db *sql.DB) {
-	rows, err := db.Query("SELECT id, userID, content, createdAt FROM posts ORDER BY createdAt DESC")
+	rows, err := db.Query("SELECT id, userID, categorie, content, createdAt FROM posts ORDER BY createdAt DESC")
 	if err != nil {
 		http.Error(w, "Error while getting post : "+err.Error(), http.StatusInternalServerError)
 		return
@@ -26,7 +27,12 @@ func getAllPost(w http.ResponseWriter, db *sql.DB) {
 	posts := []md.Post{}
 	for rows.Next() {
 		var post md.Post
-		if err := rows.Scan(&post.Id, &post.UserId, &post.Content, &post.CreateAt); err != nil {
+		var categorieJSON string
+		if err := rows.Scan(&post.Id, &post.UserId, &categorieJSON, &post.Content, &post.CreateAt); err != nil {
+			http.Error(w, "Error while getting post : "+err.Error(), http.StatusInternalServerError)
+			return
+		}
+		if err = json.Unmarshal([]byte(categorieJSON), &post.Categorie); err != nil {
 			http.Error(w, "Error while getting post : "+err.Error(), http.StatusInternalServerError)
 			return
 		}

@@ -13,7 +13,8 @@ The stucture of the body of the request is the following :
     action: "createPost"
     body: {
 	    userID       int   
-	    content    string
+        categorie    []string
+	    content      string
     }
 }
 ```
@@ -55,6 +56,7 @@ curl -X POST http://localhost:8082/ -d '{
   "body": 
     { 
       "userID": 1,
+      "categorie": ["Manga", "Anime", "Berserk"],
       "content": "I am th black swordman"
     }
 }' -H "Content-Type: application/json"
