@@ -13,7 +13,7 @@ The stucture of the body of the request is the following :
     action: "createPost"
     body: {
 	    userID       int   
-        categorie    []string
+      categorie    []string
 	    content      string
     }
 }
