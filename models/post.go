@@ -9,11 +9,11 @@ import (
 )
 
 type Post struct {
-	Id        int
-	UserId    int      `json:"userID"`
-	Categorie []string `json:"categorie"`
-	Content   string   `json:"content"`
-	CreateAt  time.Time
+	Id        int       `json:"postID"`
+	UserId    int       `json:"userID"`
+	Categorie []string  `json:"categorie"`
+	Content   string    `json:"content"`
+	CreateAt  time.Time `json:"createAt"`
 }
 
 func (post *Post) CreatePost(db *sql.DB) error {
