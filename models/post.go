@@ -9,11 +9,14 @@ import (
 )
 
 type Post struct {
-	Id        int       `json:"postID"`
-	UserId    int       `json:"userID"`
-	Categorie []string  `json:"categorie"`
-	Content   string    `json:"content"`
-	CreateAt  time.Time `json:"createAt"`
+	Id         int       `json:"postID"`
+	UserId     int       `json:"userID"`
+	Categorie  []string  `json:"categorie"`
+	Content    string    `json:"content"`
+	Img        string    `json:"img"`
+	NbrLike    int       `json:"nbrLike"`
+	NbrDislike int       `json:"nbrDislike"`
+	CreateAt   time.Time `json:"createAt"`
 }
 
 func (post *Post) CreatePost(db *sql.DB) error {
@@ -63,10 +66,13 @@ func (post *Post) CreatePost(db *sql.DB) error {
 
 func (post *Post) GetOnePost(db *sql.DB) error {
 	var categorieJSON string
-	err := db.QueryRow("SELECT userId, categorie, content, createdAt FROM posts WHERE id = ?", post.Id).Scan(
+	err := db.QueryRow("SELECT * FROM posts WHERE id = ?", post.Id).Scan(
 		&post.UserId,
 		&categorieJSON,
 		&post.Content,
+		&post.Img,
+		&post.NbrLike,
+		&post.NbrDislike,
 		&post.CreateAt,
 	)
 	if err != nil {
