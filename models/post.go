@@ -49,6 +49,9 @@ func (post *Post) CreatePost(db *sql.DB) error {
 		post.UserId,
 		string(categorieJSON),
 		post.Content,
+		post.Img,
+		post.NbrLike,
+		post.NbrDislike,
 		time.Now().Format(time.RFC3339),
 	)
 	if err != nil {
