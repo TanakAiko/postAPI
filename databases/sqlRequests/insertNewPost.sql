@@ -1,2 +1,2 @@
-INSERT INTO posts (userId, categorie, content, img,nbrLike, nbrDislike, createdAt)
-VALUES (?, ?, ?, ?, ?, ?, ?)
+INSERT INTO posts (userId, nickname, categorie, content, img,nbrLike, nbrDislike, createdAt)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?)

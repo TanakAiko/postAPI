@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS posts (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     userId INTEGER NOT NULL,
+    nickname TEXT NOT NULL,
     categorie TEXT NOT NULL,
     content TEXT NOT NULL,
     img TEXT,

@@ -11,6 +11,7 @@ import (
 type Post struct {
 	Id         int       `json:"postID"`
 	UserId     int       `json:"userID"`
+	Nickname   string    `json:"nickname"`
 	Categorie  []string  `json:"categorie"`
 	Content    string    `json:"content"`
 	Img        string    `json:"img"`
@@ -47,6 +48,7 @@ func (post *Post) CreatePost(db *sql.DB) error {
 
 	_, err = stmt.Exec(
 		post.UserId,
+		post.Nickname,
 		string(categorieJSON),
 		post.Content,
 		post.Img,
@@ -71,6 +73,7 @@ func (post *Post) GetOnePost(db *sql.DB) error {
 	var categorieJSON string
 	err := db.QueryRow("SELECT * FROM posts WHERE id = ?", post.Id).Scan(
 		&post.UserId,
+		&post.Nickname,
 		&categorieJSON,
 		&post.Content,
 		&post.Img,
