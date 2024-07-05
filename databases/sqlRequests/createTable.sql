@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS posts (
     userId INTEGER NOT NULL,
     nickname TEXT NOT NULL,
     categorie TEXT NOT NULL,
+    likedBy TEXT,
     content TEXT NOT NULL,
     img TEXT,
     nbrLike INTEGER,

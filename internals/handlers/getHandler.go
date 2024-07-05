@@ -18,7 +18,7 @@ func getOnePost(w http.ResponseWriter, post md.Post, db *sql.DB) {
 }
 
 func getAllPost(w http.ResponseWriter, db *sql.DB) {
-	rows, err := db.Query("SELECT id, userId, nickname, categorie, content, img, nbrLike, nbrDislike, createdAt FROM posts ORDER BY createdAt DESC")
+	rows, err := db.Query("SELECT id, userId, nickname, categorie, likedBy, dislikedBy, content, img, nbrLike, nbrDislike, createdAt FROM posts ORDER BY createdAt DESC")
 	if err != nil {
 		http.Error(w, "Error while getting post : "+err.Error(), http.StatusInternalServerError)
 		return
@@ -29,7 +29,9 @@ func getAllPost(w http.ResponseWriter, db *sql.DB) {
 	for rows.Next() {
 		var post md.Post
 		var categorieJSON string
-		if err := rows.Scan(&post.Id, &post.UserId, &post.Nickname, &categorieJSON, &post.Content, &post.Img, &post.NbrLike, &post.NbrDislike, &post.CreateAt); err != nil {
+		var likedByJSON string
+		var dislikedByJSON string
+		if err := rows.Scan(&post.Id, &post.UserId, &post.Nickname, &categorieJSON, &likedByJSON, &dislikedByJSON, &post.Content, &post.Img, &post.NbrLike, &post.NbrDislike, &post.CreateAt); err != nil {
 			fmt.Println("ERROR 1")
 			http.Error(w, "Error while getting post : "+err.Error(), http.StatusInternalServerError)
 			return
@@ -39,6 +41,18 @@ func getAllPost(w http.ResponseWriter, db *sql.DB) {
 			http.Error(w, "Error while getting post : "+err.Error(), http.StatusInternalServerError)
 			return
 		}
+		if err = json.Unmarshal([]byte(likedByJSON), &post.LikedBy); err != nil {
+			fmt.Println("ERROR 3")
+			http.Error(w, "Error while getting post : "+err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		if err = json.Unmarshal([]byte(dislikedByJSON), &post.DisLikedBy); err != nil {
+			fmt.Println("ERROR 4")
+			http.Error(w, "Error while getting post : "+err.Error(), http.StatusInternalServerError)
+			return
+		}
+
 		posts = append(posts, post)
 
 	}

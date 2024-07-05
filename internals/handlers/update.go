@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"database/sql"
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"post/internals/tools"
@@ -12,15 +13,25 @@ import (
 func updateLike(w http.ResponseWriter, post md.Post, db *sql.DB) {
 	query := `
         UPDATE posts
-        SET nbrLike = ?, nbrDislike = ?
+        SET nbrLike = ?, nbrDislike = ?, likedBy = ?, dislikedBy = ?
         WHERE id = ?;
     `
 
-	fmt.Printf("\n\npost.Id: %v\n\n", post.Id)
-	fmt.Printf("post.NbrLike: %v\n", post.NbrLike)
-	fmt.Printf("post.NbrDislike: %v\n", post.NbrDislike)
+	likedByJSON, err := json.Marshal(post.LikedBy)
+	if err != nil {
+		fmt.Println("ERROR 0")
+		http.Error(w, "Error while deleting post : "+err.Error(), http.StatusInternalServerError)
+		return
+	}
 
-	result, err := db.Exec(query, post.NbrLike, post.NbrDislike, post.Id)
+	dislikedByJSON, err := json.Marshal(post.DisLikedBy)
+	if err != nil {
+		fmt.Println("ERROR 0.5")
+		http.Error(w, "Error while deleting post : "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	result, err := db.Exec(query, post.NbrLike, post.NbrDislike, post.Id, string(likedByJSON), string(dislikedByJSON))
 	if err != nil {
 		fmt.Println("ERROR 1")
 		http.Error(w, "Error while deleting post : "+err.Error(), http.StatusInternalServerError)
