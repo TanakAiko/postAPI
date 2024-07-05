@@ -16,7 +16,9 @@ func updateLike(w http.ResponseWriter, post md.Post, db *sql.DB) {
         WHERE id = ?;
     `
 
-	fmt.Printf("\n\ndata: %v\n\n", post)
+	fmt.Printf("\n\npost.Id: %v\n\n", post.Id)
+	fmt.Printf("post.NbrLike: %v\n", post.NbrLike)
+	fmt.Printf("post.NbrDislike: %v\n", post.NbrDislike)
 
 	result, err := db.Exec(query, post.NbrLike, post.NbrDislike, post.Id)
 	if err != nil {
