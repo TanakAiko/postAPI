@@ -40,7 +40,6 @@ func getAllPost(w http.ResponseWriter, db *sql.DB) {
 			return
 		}
 		posts = append(posts, post)
-		fmt.Printf("\n\n AllPost: %v\n\n", posts)
 
 	}
 	tools.WriteResponse(w, posts, http.StatusOK)

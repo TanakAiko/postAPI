@@ -32,6 +32,8 @@ func MainHandler(w http.ResponseWriter, r *http.Request) {
 		deletePost(w, req.Body, db)
 	case "getAll":
 		getAllPost(w, db)
+	case "updateLike":
+		updateLike(w, req.Body, db)
 	default:
 		http.Error(w, "Unknown action", http.StatusBadRequest)
 		return

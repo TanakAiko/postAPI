@@ -2,29 +2,41 @@ package handlers
 
 import (
 	"database/sql"
+	"fmt"
 	"net/http"
 	"post/internals/tools"
 	md "post/models"
 	"strconv"
 )
 
-func deletePost(w http.ResponseWriter, post md.Post, db *sql.DB) {
-	result, err := db.Exec("DELETE FROM posts WHERE id = ?", post.Id)
+func updateLike(w http.ResponseWriter, post md.Post, db *sql.DB) {
+	query := `
+        UPDATE posts
+        SET nbrLike = ?, nbrDislike = ?
+        WHERE id = ?;
+    `
+
+	fmt.Printf("\n\ndata: %v\n\n", post)
+
+	result, err := db.Exec(query, post.NbrLike, post.NbrDislike, post.Id)
 	if err != nil {
+		fmt.Println("ERROR 1")
 		http.Error(w, "Error while deleting post : "+err.Error(), http.StatusInternalServerError)
 		return
 	}
 
 	rowsAffected, err := result.RowsAffected()
 	if err != nil {
+		fmt.Println("ERROR 2")
 		http.Error(w, "Error while checking rows affected: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
 
 	if rowsAffected == 0 {
+		fmt.Println("ERROR 3")
 		http.Error(w, "No post found with ID: "+strconv.Itoa(post.Id), http.StatusBadRequest)
 		return
 	}
 
-	tools.WriteResponse(w, "Post well deleted", http.StatusOK)
+	tools.WriteResponse(w, "Post well updated", http.StatusOK)
 }
