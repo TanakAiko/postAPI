@@ -31,7 +31,7 @@ func updateLike(w http.ResponseWriter, post md.Post, db *sql.DB) {
 		return
 	}
 
-	result, err := db.Exec(query, post.NbrLike, post.NbrDislike, post.Id, string(likedByJSON), string(dislikedByJSON))
+	result, err := db.Exec(query, post.NbrLike, post.NbrDislike, string(likedByJSON), string(dislikedByJSON), post.Id)
 	if err != nil {
 		fmt.Println("ERROR 1")
 		http.Error(w, "Error while deleting post : "+err.Error(), http.StatusInternalServerError)

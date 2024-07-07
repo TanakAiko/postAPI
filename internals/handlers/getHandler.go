@@ -36,11 +36,13 @@ func getAllPost(w http.ResponseWriter, db *sql.DB) {
 			http.Error(w, "Error while getting post : "+err.Error(), http.StatusInternalServerError)
 			return
 		}
+
 		if err = json.Unmarshal([]byte(categorieJSON), &post.Categorie); err != nil {
 			fmt.Println("ERROR 2")
 			http.Error(w, "Error while getting post : "+err.Error(), http.StatusInternalServerError)
 			return
 		}
+
 		if err = json.Unmarshal([]byte(likedByJSON), &post.LikedBy); err != nil {
 			fmt.Println("ERROR 3")
 			http.Error(w, "Error while getting post : "+err.Error(), http.StatusInternalServerError)
@@ -56,5 +58,6 @@ func getAllPost(w http.ResponseWriter, db *sql.DB) {
 		posts = append(posts, post)
 
 	}
+
 	tools.WriteResponse(w, posts, http.StatusOK)
 }

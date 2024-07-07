@@ -50,7 +50,6 @@ func (post *Post) CreatePost(db *sql.DB) error {
 		return err
 	}
 
-	// This code snippet is preparing a SQL statement for execution within a transaction.
 	stmt, err := tx.Prepare(string(content))
 	if err != nil {
 		log.Println(err)
