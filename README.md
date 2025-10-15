@@ -11,20 +11,41 @@ A lightweight Go REST API for managing forum posts with SQLite database support.
 
 </div>
 
-## 📋 Table of Contents
+<details>
+<summary>📋 Table of Contents</summary>
 
-- [Overview](#overview)
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Prerequisites](#prerequisites)
-- [Installation](#installation)
-- [Usage](#usage)
-- [API Reference](#api-reference)
-- [Project Structure](#project-structure)
-- [Docker Support](#docker-support)
-- [Testing](#testing)
-- [Dependencies](#dependencies)
-- [Contributing](#contributing)
+- [📝 postAPI](#-postapi)
+  - [🔍 Overview](#-overview)
+  - [✨ Features](#-features)
+  - [🛠 Tech Stack](#-tech-stack)
+  - [⚙️ Prerequisites](#️-prerequisites)
+  - [🚀 Installation](#-installation)
+    - [Local Development](#local-development)
+    - [Using Docker](#using-docker)
+  - [📖 Usage](#-usage)
+    - [Base URL](#base-url)
+  - [🔌 API Reference](#-api-reference)
+    - [Request Structure](#request-structure)
+    - [Available Actions](#available-actions)
+      - [1. Create Post](#1-create-post)
+      - [2. Get One Post](#2-get-one-post)
+      - [3. Get All Posts](#3-get-all-posts)
+      - [4. Delete Post](#4-delete-post)
+      - [5. Update Post](#5-update-post)
+  - [📁 Project Structure](#-project-structure)
+  - [🐳 Docker Support](#-docker-support)
+    - [Environment Variables](#environment-variables)
+  - [🧪 Testing](#-testing)
+    - [Manual Testing with cURL](#manual-testing-with-curl)
+      - [Create a Post](#create-a-post)
+      - [Get One Post](#get-one-post)
+      - [Get All Posts](#get-all-posts)
+      - [Delete a Post](#delete-a-post)
+    - [Expected Responses](#expected-responses)
+  - [📦 Dependencies](#-dependencies)
+  - [🤝 Contributing](#-contributing)
+
+</details>
 
 ## 🔍 Overview
 
